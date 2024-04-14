@@ -9,11 +9,6 @@ import (
 	"goji.io/pat"
 )
 
-func hello(w http.ResponseWriter, r *http.Request) {
-	name := pat.Param(r, "name")
-	fmt.Fprintf(w, "Hello, %s!", name)
-}
-
 func rootFunc(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Root")
 }
