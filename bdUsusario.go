@@ -2,8 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
-	"log"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -67,7 +65,21 @@ func GetUsuariosDB() ([]UsuarioDB, error) {
 	return usuarios, nil
 }
 
-func main() {
+func PostUsuarioDB(nombre, correo string) error {
+	db, err := sql.Open("sqlite3", "./usuarios.db")
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	_, err = db.Exec("INSERT INTO usuarios (nombre, correo) VALUES (?, ?)", nombre, correo)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func initDB() error {
 	db, err := sql.Open("sqlite3", "./usuarios.db")
 	if err != nil {
 		panic(err)
@@ -78,9 +90,13 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	mensaje := "Tabla usuarios creada"
+	println(mensaje)
+	return nil
+}
 
-	db.Exec("INSERT INTO usuarios (nombre, correo) VALUES ('Juan', 'aaze92@gmai.com')")
-	fmt.Println("Server started at localhost:8000")
+/*
+func main() {
 
 	usuarios, err := GetUsuariosDB()
 	if err != nil {
@@ -98,4 +114,11 @@ func main() {
 	}
 	fmt.Println("Usuario con ID 1:")
 	fmt.Println(usuario.ID, usuario.Nombre, usuario.Correo)
+
+	err = PostUsuarioDB("arturo zepeda", "aaze92@gmail.com")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Usuario insertado")
 }
+*/
