@@ -109,7 +109,10 @@ func GetUsuariosDB() ([]UsuarioDB, error) {
 	return usuarios, nil
 }
 
-func PostUsuarioDB(nombre, correo string) error {
+func PostUsuarioDB(UsuarioDB) error {
+	var u UsuarioDB
+	var nombre string = u.Nombre
+	var correo string = u.Correo
 	db, err := sql.Open("sqlite3", "./usuarios.db")
 	if err != nil {
 		return err
@@ -117,6 +120,20 @@ func PostUsuarioDB(nombre, correo string) error {
 	defer db.Close()
 
 	_, err = db.Exec("INSERT INTO usuarios (nombre, correo) VALUES (?, ?)", nombre, correo)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteUsuarioDB(id int) error {
+	db, err := sql.Open("sqlite3", "./usuarios.db")
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	_, err = db.Exec("DELETE FROM usuarios WHERE id = ?", id)
 	if err != nil {
 		return err
 	}

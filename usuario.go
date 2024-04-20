@@ -48,11 +48,35 @@ func UsuarioGetFunc(w http.ResponseWriter, r *http.Request) {
 }
 
 func UsuarioPostFunc(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Usuario Post ID %s", pat.Param(r, "id"))
+	w.Header().Set("Content-Type", "application/json")
+	var usuario UsuarioDB
+	err := json.NewDecoder(r.Body).Decode(&usuario)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	err = PostUsuarioDB(usuario)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	json.NewEncoder(w).Encode(usuario)
+
 }
 func UsuarioPutFunc(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Usuario Put ID %s", pat.Param(r, "id"))
 }
 func UsuarioDeleteFunc(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(pat.Param(r, "id"))
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err)
+		return
+	}
 	fmt.Fprintf(w, "Usuario Delete ID %s", pat.Param(r, "id"))
+	error := DeleteUsuarioDB(id)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", error)
+		return
+	}
+
 }
