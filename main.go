@@ -23,7 +23,7 @@ func main() {
 	}
 	root.Handle(pat.New("/usuario/*"), usuario)
 	root.HandleFunc(pat.Get("/"), rootFunc)
-	usuario.HandleFunc(pat.Post("/:id"), UsuarioPostFunc)
+	usuario.HandleFunc(pat.Post("/"), UsuarioPostFunc)
 	usuario.HandleFunc(pat.Get("/"), UsuariosGetFunc)
 	usuario.HandleFunc(pat.Get("/:id"), UsuarioGetFunc)
 	usuario.HandleFunc(pat.Put("/:id"), UsuarioPutFunc)
