@@ -22,6 +22,7 @@ func main() {
 		log.Fatal(err)
 	}
 	root.Handle(pat.New("/usuario/*"), usuario)
+	root.Handle(pat.New("/test/*"), rootFunc)
 	root.HandleFunc(pat.Get("/"), rootFunc)
 	usuario.HandleFunc(pat.Post("/"), UsuarioPostFunc)
 	usuario.HandleFunc(pat.Get("/"), UsuariosGetFunc)
