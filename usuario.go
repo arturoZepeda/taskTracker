@@ -80,3 +80,17 @@ func UsuarioDeleteFunc(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func Usuario(w http.ResponseWriter, r *http.Request) {
+	//origen:= r.Header.Get("Origin")
+	switch r.Method {
+	case "GET":
+		UsuarioGetFunc(w, r)
+	case "POST":
+		UsuarioPostFunc(w, r)
+	case "PUT":
+		UsuarioPutFunc(w, r)
+	case "DELETE":
+		UsuarioDeleteFunc(w, r)
+	}
+}
