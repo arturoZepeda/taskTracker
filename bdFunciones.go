@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -109,8 +110,8 @@ func GetUsuariosDB() ([]UsuarioDB, error) {
 	return usuarios, nil
 }
 
-func PostUsuarioDB(UsuarioDB) error {
-	var u UsuarioDB
+func PostUsuarioDB(u UsuarioDB) error {
+	fmt.Println(u)
 	var nombre string = u.Nombre
 	var correo string = u.Correo
 	db, err := sql.Open("sqlite3", "./usuarios.db")
@@ -157,31 +158,3 @@ func initDB() error {
 	println(mensaje)
 	return nil
 }
-
-/*
-func main() {
-
-	usuarios, err := GetUsuariosDB()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for _, usuario := range usuarios {
-		fmt.Println(usuario.ID, usuario.Nombre, usuario.Correo)
-	}
-	var idUsuario int
-	idUsuario = 1
-	usuario, err := GetUsuarioDB(idUsuario)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("Usuario con ID 1:")
-	fmt.Println(usuario.ID, usuario.Nombre, usuario.Correo)
-
-	err = PostUsuarioDB("arturo zepeda", "aaze92@gmail.com")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("Usuario insertado")
-}
-*/

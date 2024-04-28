@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -48,20 +49,34 @@ func UsuarioGetFunc(w http.ResponseWriter, r *http.Request) {
 }
 
 func UsuarioPostFunc(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+	// Verificar el tipo de contenido
+	if r.Header.Get("Content-Type") != "application/json" {
+		http.Error(w, "Content-Type header is not application/json", http.StatusUnsupportedMediaType)
+		return
+	}
+
 	var usuario UsuarioDB
 	err := json.NewDecoder(r.Body).Decode(&usuario)
+	// Cerrar el cuerpo de la solicitud
+	defer r.Body.Close()
+
 	if err != nil {
+		// Registrar el error en el servidor
+		log.Printf("Error decoding request body: %v", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	//agrega debug para ver el contenido de usuario
+	fmt.Println(usuario)
 	err = PostUsuarioDB(usuario)
 	if err != nil {
+		// Registrar el error en el servidor
+		log.Printf("Error posting to database: %v", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	json.NewEncoder(w).Encode(usuario)
 
+	json.NewEncoder(w).Encode(usuario)
 }
 func UsuarioPutFunc(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Usuario Put ID %s", pat.Param(r, "id"))
