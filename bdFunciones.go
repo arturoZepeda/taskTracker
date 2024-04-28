@@ -127,6 +127,24 @@ func PostUsuarioDB(u UsuarioDB) error {
 	return nil
 }
 
+func PutUsuarioDB(u UsuarioDB) error {
+	fmt.Println(u)
+	fmt.Println(u.ID)
+	fmt.Println(u.Nombre)
+	fmt.Println(u.Correo)
+	db, err := sql.Open("sqlite3", "./usuarios.db")
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	_, err = db.Exec("UPDATE usuarios SET nombre = ?, correo = ? WHERE id = ?", u.Nombre, u.Correo, u.ID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func DeleteUsuarioDB(id int) error {
 	db, err := sql.Open("sqlite3", "./usuarios.db")
 	if err != nil {
@@ -147,14 +165,15 @@ func initDB() error {
 		panic(err)
 	}
 	defer db.Close()
-	for _, query := range detalleQuery {
-		_, err = db.Exec(query)
-		if err != nil {
-			println("Error al ejecutar la sentencia SQL: %s", err)
-			continue
-		}
-	}
-	mensaje := "Tabla usuarios creada"
+
+	// for _, query := range detalleQuery {
+	// 	_, err = db.Exec(query)
+	// 	if err != nil {
+	// 		println("Error al ejecutar la sentencia SQL: %s", err)
+	// 		continue
+	// 	}
+	// }
+	mensaje := "Base de datos inicializada correctamente"
 	println(mensaje)
 	return nil
 }

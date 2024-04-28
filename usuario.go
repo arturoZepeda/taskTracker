@@ -78,9 +78,47 @@ func UsuarioPostFunc(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(usuario)
 }
+
 func UsuarioPutFunc(w http.ResponseWriter, r *http.Request) {
+	if r.Header.Get("Content-Type") != "application/json" {
+		http.Error(w, "Content-Type header is not application/json", http.StatusUnsupportedMediaType)
+		return
+	}
+
+	var usuarioPut UsuarioDB
+	err := json.NewDecoder(r.Body).Decode(&usuarioPut)
+	// Cerrar el cuerpo de la solicitud
+	defer r.Body.Close()
+
+	if err != nil {
+		// Registrar el error en el servidor
+		log.Printf("Error decoding request body: %v", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	//agrega debug para ver el contenido de usuarioPut
+	fmt.Println(usuarioPut)
+
+	id, err := strconv.Atoi(pat.Param(r, "id"))
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err)
+		return
+	}
 	fmt.Fprintf(w, "Usuario Put ID %s", pat.Param(r, "id"))
+	usuario, err := GetUsuarioDB(id)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err)
+		return
+	}
+	fmt.Println(usuario)
+	fmt.Println(usuarioPut)
+	err = PutUsuarioDB(usuarioPut)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err)
+		return
+	}
 }
+
 func UsuarioDeleteFunc(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(pat.Param(r, "id"))
 	if err != nil {
