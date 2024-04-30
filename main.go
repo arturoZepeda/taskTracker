@@ -9,27 +9,6 @@ import (
 	"goji.io/pat"
 )
 
-func test(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Test2312312312")
-}
-func rootFunc(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Root")
-	fmt.Println(r.URL.Path)
-	fmt.Println(r.URL.Query())
-	fmt.Println(r.Method)
-}
-
-func generaRuta(root *goji.Mux, ruta string, handler http.HandlerFunc) {
-	root.Handle(pat.New(ruta), handler)
-	ruta = ruta + "/:id"
-	root.HandleFunc(pat.Get(ruta), getFunc)
-	root.HandleFunc(pat.Post(ruta), postFunc)
-	root.HandleFunc(pat.Post(ruta), postFunc)
-	root.HandleFunc(pat.Put(ruta), putFunc)
-	root.HandleFunc(pat.Delete(ruta), deleteFunc)
-
-}
-
 func main() {
 	fmt.Println("Server started at localhost:8000")
 	root := goji.NewMux()
