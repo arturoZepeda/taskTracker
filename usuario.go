@@ -45,7 +45,6 @@ func UsuarioGetFunc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Fprintf(w, "%s", response)
-
 }
 
 func UsuarioPostFunc(w http.ResponseWriter, r *http.Request) {
@@ -66,7 +65,7 @@ func UsuarioPostFunc(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	//agrega debug para ver el contenido de usuario
+	// agrega debug para ver el contenido de usuario
 	fmt.Println(usuario)
 	err = PostUsuarioDB(usuario)
 	if err != nil {
@@ -96,7 +95,7 @@ func UsuarioPutFunc(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	//agrega debug para ver el contenido de usuarioPut
+	// agrega debug para ver el contenido de usuarioPut
 	fmt.Println(usuarioPut)
 
 	id, err := strconv.Atoi(pat.Param(r, "id"))
@@ -127,9 +126,8 @@ func UsuarioDeleteFunc(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintf(w, "Usuario Delete ID %s", pat.Param(r, "id"))
 	error := DeleteUsuarioDB(id)
-	if err != nil {
+	if error != nil {
 		fmt.Fprintf(w, "Error: %s", error)
 		return
 	}
-
 }

@@ -9,6 +9,7 @@ import (
 
 func getFunc(w http.ResponseWriter, r *http.Request) {
 	if pat.Param(r, "id") == "" {
+		fmt.Println("No hay id")
 		switch r.URL.Path {
 		case "/":
 			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
@@ -27,31 +28,39 @@ func getFunc(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
 		}
 	} else {
-		switch r.URL.Path {
-		case "/usuario/1":
+		idTemp := pat.Param(r, "id")
+		fmt.Println("El id es:", idTemp)
+		switch url := r.URL.Path; url {
+		case "/usuario/" + idTemp:
 			UsuarioGetFunc(w, r)
-		case "/actividades/1":
+		case "/actividades/" + idTemp:
 			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
-		case "/tipoActividades/1":
+		case "/tipoActividades/" + idTemp:
 			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
-		case "/frecuenciaActividades/1":
+		case "/frecuenciaActividades/" + idTemp:
 			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
-		case "/registrosActividades/1":
+		case "/registrosActividades/" + idTemp:
 			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
-		case "/subregistrosActividades/1":
+		case "/subregistrosActividades/" + idTemp:
 			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
 		}
 	}
 }
+
 func postFunc(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/usuario" {
 		UsuarioPostFunc(w, r)
 	}
+	if r.URL.Path == "actividades" {
+		fmt.Fprintf(w, "Test POST path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	}
 	fmt.Fprintf(w, "Test POST path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
 }
+
 func putFunc(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Test PUT"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
 }
+
 func deleteFunc(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Test DELETE"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
 }
