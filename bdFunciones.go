@@ -53,9 +53,9 @@ import (
 	}
 */
 type UsuarioDB struct {
-	ID     int
 	Nombre string
 	Correo string
+	ID     int
 }
 
 type DB struct {

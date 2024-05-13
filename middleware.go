@@ -48,19 +48,58 @@ func getFunc(w http.ResponseWriter, r *http.Request) {
 }
 
 func postFunc(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/usuario" {
+	path := r.URL.Path
+	switch path {
+	case "/usuario":
 		UsuarioPostFunc(w, r)
-	}
-	if r.URL.Path == "actividades" {
+	case "/actividades":
+		fmt.Fprintf(w, "Test POST path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	case "/tipoActividades":
+		fmt.Fprintf(w, "Test POST path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	case "/frecuenciaActividades":
+		fmt.Fprintf(w, "Test POST path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	case "/registrosActividades":
+		fmt.Fprintf(w, "Test POST path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	case "/subregistrosActividades":
 		fmt.Fprintf(w, "Test POST path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
 	}
 	fmt.Fprintf(w, "Test POST path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
 }
 
 func putFunc(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.Path
+	switch path {
+	case "/usuario":
+		UsuarioPutFunc(w, r)
+	case "/actividades":
+		fmt.Fprintf(w, "Test PUT path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	case "/tipoActividades":
+		fmt.Fprintf(w, "Test PUT path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	case "/frecuenciaActividades":
+		fmt.Fprintf(w, "Test PUT path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	case "/registrosActividades":
+		fmt.Fprintf(w, "Test PUT path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	case "/subregistrosActividades":
+		fmt.Fprintf(w, "Test PUT path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	}
 	fmt.Fprintf(w, "Test PUT"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
 }
 
 func deleteFunc(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.Path
+	switch path {
+	case "/usuario":
+		UsuarioDeleteFunc(w, r)
+	case "/actividades":
+		fmt.Fprintf(w, "Test DELETE path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	case "/tipoActividades":
+		fmt.Fprintf(w, "Test DELETE path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	case "/frecuenciaActividades":
+		fmt.Fprintf(w, "Test DELETE path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	case "/registrosActividades":
+		fmt.Fprintf(w, "Test DELETE path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	case "/subregistrosActividades":
+		fmt.Fprintf(w, "Test DELETE path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+	}
 	fmt.Fprintf(w, "Test DELETE"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
 }
