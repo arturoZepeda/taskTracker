@@ -8,7 +8,29 @@ import (
 )
 
 func getFunc(w http.ResponseWriter, r *http.Request) {
-	if pat.Param(r, "id") == "" {
+	fmt.Println("GET")
+	id := pat.Param(r, "id")
+	if id != "" {
+
+		idTemp := pat.Param(r, "id")
+		fmt.Println("El id es:", idTemp)
+		switch url := r.URL.Path; url {
+		case "/usuario/" + idTemp:
+			UsuarioGetFunc(w, r)
+		case "/actividades/" + idTemp:
+			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+		case "/tipoActividades/" + idTemp:
+			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+		case "/frecuenciaActividades/" + idTemp:
+			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+		case "/registrosActividades/" + idTemp:
+			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+		case "/subregistrosActividades/" + idTemp:
+			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
+		}
+
+	} else {
+
 		fmt.Println("No hay id")
 		switch r.URL.Path {
 		case "/":
@@ -25,23 +47,6 @@ func getFunc(w http.ResponseWriter, r *http.Request) {
 		case "/registrosActividades":
 			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
 		case "/subregistrosActividades":
-			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
-		}
-	} else {
-		idTemp := pat.Param(r, "id")
-		fmt.Println("El id es:", idTemp)
-		switch url := r.URL.Path; url {
-		case "/usuario/" + idTemp:
-			UsuarioGetFunc(w, r)
-		case "/actividades/" + idTemp:
-			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
-		case "/tipoActividades/" + idTemp:
-			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
-		case "/frecuenciaActividades/" + idTemp:
-			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
-		case "/registrosActividades/" + idTemp:
-			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
-		case "/subregistrosActividades/" + idTemp:
 			fmt.Fprintf(w, "Test GET path:"+r.URL.Path+" query:"+r.URL.Query().Encode()+" method:"+r.Method)
 		}
 	}
