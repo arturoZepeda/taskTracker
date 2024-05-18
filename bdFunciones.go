@@ -7,55 +7,54 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-/*
-	var detalleQuery = []string{
-		`CREATE TABLE Usuarios (
-			ID INTEGER PRIMARY KEY,
-			nombre TEXT,
-			correo TEXT
-		);`,
-		`CREATE TABLE Actividades (
-			ID INTEGER PRIMARY KEY,
-			nombre TEXT,
-			descripcion TEXT,
-			nombre_subregistro TEXT,
-			id_tipo INTEGER,
-			FOREIGN KEY(id_tipo) REFERENCES TipoActividad(ID)
-		);`,
-		`CREATE TABLE TipoActividad (
-			ID INTEGER PRIMARY KEY,
-			nombre TEXT
-		);`,
-		`CREATE TABLE Frecuencia (
-			ID INTEGER PRIMARY KEY,
-			frecuencia TEXT
-		);`,
-		`CREATE TABLE Registros (
-			ID INTEGER PRIMARY KEY,
-			ID_usuario INTEGER,
-			ID_actividad INTEGER,
-			ID_frecuencia INTEGER,
-			fecha TEXT,
-			estado INTEGER,
-			FOREIGN KEY(ID_usuario) REFERENCES Usuarios(ID),
-			FOREIGN KEY(ID_actividad) REFERENCES Actividades(ID),
-			FOREIGN KEY(ID_frecuencia) REFERENCES Frecuencia(ID)
-		);`,
-		`CREATE TABLE Subregistros (
-			ID INTEGER PRIMARY KEY,
-			nombre TEXT,
-			descripcion TEXT,
-			ID_registro INTEGER,
-			ID_actividad INTEGER,
-			FOREIGN KEY(ID_registro) REFERENCES Registros(ID),
-			FOREIGN KEY(ID_actividad) REFERENCES Actividades(ID)
-		);`,
-	}
-*/
+var detalleQuery = []string{
+	`CREATE TABLE Usuarios (
+		ID INTEGER PRIMARY KEY,
+		nombre TEXT,
+		correo TEXT
+	);`,
+	`CREATE TABLE Actividades (
+		ID INTEGER PRIMARY KEY,
+		nombre TEXT,
+		descripcion TEXT,
+		nombre_subregistro TEXT,
+		id_tipo INTEGER,
+		FOREIGN KEY(id_tipo) REFERENCES TipoActividad(ID)
+	);`,
+	`CREATE TABLE TipoActividad (
+		ID INTEGER PRIMARY KEY,
+		nombre TEXT
+	);`,
+	`CREATE TABLE Frecuencia (
+		ID INTEGER PRIMARY KEY,
+		frecuencia TEXT
+	);`,
+	`CREATE TABLE Registros (
+		ID INTEGER PRIMARY KEY,
+		ID_usuario INTEGER,
+		ID_actividad INTEGER,
+		ID_frecuencia INTEGER,
+		fecha TEXT,
+		estado INTEGER,
+		FOREIGN KEY(ID_usuario) REFERENCES Usuarios(ID),
+		FOREIGN KEY(ID_actividad) REFERENCES Actividades(ID),
+		FOREIGN KEY(ID_frecuencia) REFERENCES Frecuencia(ID)
+	);`,
+	`CREATE TABLE Subregistros (
+		ID INTEGER PRIMARY KEY,
+		nombre TEXT,
+		descripcion TEXT,
+		ID_registro INTEGER,
+		ID_actividad INTEGER,
+		FOREIGN KEY(ID_registro) REFERENCES Registros(ID),
+		FOREIGN KEY(ID_actividad) REFERENCES Actividades(ID)
+	);`,
+}
+
 type UsuarioDB struct {
+	ID     int
 	Nombre string
 	Correo string
-	ID     int
 }
 
 type ActividadesDB struct{
