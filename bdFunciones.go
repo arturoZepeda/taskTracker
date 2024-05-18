@@ -58,9 +58,24 @@ type UsuarioDB struct {
 	ID     int
 }
 
+type ActividadesDB struct{
+  ID    int
+  Nombre string
+  Descripcion string
+  nombre_subregistro string
+  id_tipo int
+}
+
 type DB struct {
 	Database *sql.DB
 }
+
+func (db *DB) GetActividad(id int) (ActividadesDB, error){
+  var actividad ActividadesDB
+  err := db.Database.QueryRow("SELECT id, nombre, descripcion, nombre_subregistro, id_tipo FROM Actividades WHERE id = ?",id).Scan(&actividad.ID, &actividad.Nombre, &actividad.Descripcion, &actividad.nombre_subregistro, &actividad.id_tipo)
+  return actividad, err
+}
+
 
 func (db *DB) GetUsuario(id int) (UsuarioDB, error) {
 	var usuario UsuarioDB
