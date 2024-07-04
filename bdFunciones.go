@@ -57,24 +57,71 @@ type UsuarioDB struct {
 	Correo string
 }
 
-type ActividadesDB struct{
-  ID    int
-  Nombre string
-  Descripcion string
-  nombre_subregistro string
-  id_tipo int
+type ActividadesDB struct {
+	ID                 int
+	Nombre             string
+	Descripcion        string
+	nombre_subregistro string
+	id_tipo            int
 }
 
 type DB struct {
 	Database *sql.DB
 }
 
-func (db *DB) GetActividad(id int) (ActividadesDB, error){
-  var actividad ActividadesDB
-  err := db.Database.QueryRow("SELECT id, nombre, descripcion, nombre_subregistro, id_tipo FROM Actividades WHERE id = ?",id).Scan(&actividad.ID, &actividad.Nombre, &actividad.Descripcion, &actividad.nombre_subregistro, &actividad.id_tipo)
-  return actividad, err
+func (db *DB) GetActividad(id int) (ActividadesDB, error) {
+	var actividad ActividadesDB
+	err := db.Database.QueryRow("SELECT id, nombre, descripcion, nombre_subregistro, id_tipo FROM Actividades WHERE id = ?", id).Scan(&actividad.ID, &actividad.Nombre, &actividad.Descripcion, &actividad.nombre_subregistro, &actividad.id_tipo)
+	return actividad, err
 }
 
+func (db *DB) GetActividades([]ActividadesDB, error) {
+	db, err := sql.open("sqlite3", "./usuarios.db")
+	if err != nil {
+		return nil, err
+	}
+	defer db.Close()
+	rows, err := db.Query("SELECT id, nombre, descripcion, nombre_subregistro, id_tipo FROM Actividades")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	actividades := []ActividadesDB{}
+
+	for rows.Next() {
+		var a ActividadesDB
+		err := rows.Scan(&a.ID, &a.Nombre, &a.Descripcion, &a.nombre_subregistro, &a.id_tipo)
+		if err != nil {
+			return nil, err
+		}
+		actividades = append(actividades, a)
+	}
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+	return actividades
+}
+
+func postActividadDB(a ActividadesDB) error {
+
+	fmt.Println(a)
+	var nombre string = a.Nombre
+	var descripcion string = a.Descripcion
+	var nombre_subregistro string = a.nombre_subregistro
+	var id_tipo int = a.id_tipo
+
+	db, err := sql.open("sqlite3", "./usuarios.db")
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+	_, err = db.Exec("INSERT INTO Actividades (nombre, descripcion, nombre_subregistro, id_tipo) VALUES (?, ?, ?, ?)", nombre, descripcion, nombre_subregistro, id_tipo)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func (db *DB) GetUsuario(id int) (UsuarioDB, error) {
 	var usuario UsuarioDB
