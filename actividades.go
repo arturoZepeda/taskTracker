@@ -7,8 +7,8 @@ import (
 )
 
 func ActividadesGetFunc(w http.ResponseWriter, r *http.Request) {
-	var actividadResponse []UsuarioDB
-	usuarios, err := GetActividad()
+	var actividadResponse []Actividad
+	usuarios, err := GetActividades()
 	if err != nil {
 		fmt.Fprintf(w, "Error: %s", err)
 		return
